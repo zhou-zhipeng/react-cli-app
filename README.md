@@ -1,3 +1,19 @@
+# 生成webp相关的配置文件
+```bash
+$ npm run eject
+```
+
+# 运行项目
+```bash
+$ npm start
+```
+
+# 运行单元测试
+```bash
+$ npm test
+```
+
+
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
