@@ -1,17 +1,18 @@
+import '@/less/index.less';
 import React from 'react';
 import ReactDOM from 'react-dom';
-import './less/index.less';
-import App from './App';
+import Router from '@/config/router.config';
 import reportWebVitals from './reportWebVitals';
 
-ReactDOM.render(
-  <React.StrictMode>
-    <App />
-  </React.StrictMode>,
+ReactDOM.render((
+  // <React.StrictMode> // 严格模式下react更新功能可能会存在bug
+    <Router/>
+  // </React.StrictMode>
+  ),
   document.getElementById('root')
 );
 
 // If you want to start measuring performance in your app, pass a function
 // to log results (for example: reportWebVitals(console.log))
 // or send to an analytics endpoint. Learn more: https://bit.ly/CRA-vitals
-reportWebVitals();
+reportWebVitals(console.log);

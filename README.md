@@ -1,18 +1,18 @@
-# 生成webp相关的配置文件
+### 生成webpack相关的配置文件
 ```bash
 $ npm run eject
 ```
 
-# 运行项目
+### 运行项目
 ```bash
 $ npm start
 ```
 
-# 运行单元测试
+### 运行单元测试
 ```bash
 $ npm test
 ```
-
+### webpack配置@符号访问根目录
 
 # Getting Started with Create React App
 
