@@ -3,19 +3,17 @@ import qs from 'qs'
 import { connect } from 'react-redux'
 
 const service = axios.create({
-  baseURL: process.env.BASE_API + '/test',
+  baseURL: '',
   timeout: 10000, // request timeout,通用接口的请求超时时间，特殊接口请单独设置
   retry: 0, // 请求失败之后自动请求的次数
   retryDelay: 1000, // 重新请求的间隔时间
 })
 service.interceptors.request.use(
-  (config) => {
-    // config.headers.Authorization = store.getters.token
-    // config.headers.traceId =
-    //   formatTime(new Date().getTime()) +
-    //   '_' +
-    //   Math.floor(Math.random() * 100000000) +
-    //   new Date().getTime() // 增加traceId字段请求头
+    (config) => {
+    config.headers.authorization = localStorage.getItem('authorization') || ''
+    if (config.auth && !config.headers.authorization) { // 未登录且要鉴权请求返回错误
+        return Promise.reject(config)
+    }
     if (config.headers['Content-Type'] === 'multipart/form-data') return config
     if (config.headers['Content-Type'] === 'application/json') {
       config.data = JSON.stringify(config.data)

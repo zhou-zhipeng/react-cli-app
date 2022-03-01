@@ -4,45 +4,37 @@
  * https://stackblitz.com/github/remix-run/react-router/tree/main/examples/auth?file=src%2FApp.tsx
  *
  */
-import * as React from 'react'
-import { Route, Routes, BrowserRouter as Router } from 'react-router-dom'
+import * as React from "react";
+import {
+  /*HashRouter,*/ Route,
+  Routes,
+  BrowserRouter as Router
+} from 'react-router-dom'
 
-import BaseRouter from './module/baseRouter' // 不需要鉴权
-import HomeRouter from './module/homeRouter' // 主页
-import RequireAuth from '@/common/auth.router'
+import Home from '@/page/home' // 主页
+import BaseRouter from './module/baseRouter' // 不需要鉴权路由
+import HomeRouter from './module/homeRouter' // 需要鉴权路由
+import RequireAuth from '@/common/auth.router' // 鉴权高阶组件
 
-const routes = [...BaseRouter, ...HomeRouter] || []
+const routes = [...HomeRouter] || []
+
 export default () => (
   <Router>
     <Routes>
-      <Route>
-        {routes.map((item, key) => {
-          let Elemnt = item.element
-          if (item.auth) {
-            return (
-              <Route
-                key={key}
-                exact={item.exact}
-                path={item.path}
-                element={
-                  <RequireAuth>
-                    <Elemnt />
-                  </RequireAuth>
-                }
-              />
-            )
-          } else {
-            return (
-              <Route
-                key={key}
-                exact={item.exact}
-                path={item.path}
-                element={<Elemnt />}
-              />
-            )
-          }
-        })}
-      </Route>
+        <Route path="/" element={<Home />}>
+            {
+                routes.map((item, key) => {
+                    let Elemnt = item.element
+                    return <Route key={key} exact={item.exact} path={item.path} element={ <RequireAuth><Elemnt/></RequireAuth> } />
+                })
+            }
+        </Route>
+        {
+          BaseRouter.map((item, key) => {
+                let Elemnt = item.element
+                return <Route key={key} exact={item.exact} path={item.path} element={ <Elemnt/> } />
+            })
+        }
     </Routes>
   </Router>
 )

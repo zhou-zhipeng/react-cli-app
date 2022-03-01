@@ -5,24 +5,17 @@
  */
 
 import Login from '@/page/login' // 登录
-import NoFound from '@/page/base/noFound' // 未找到页面
-
+import _404 from '@/page/base/noFound' // 404
 export default [
-  {
-    path: '*',
-    element: NoFound,
-    exact: false,
-    auth: false,
-  },
-  {
-    path: '/nofound',
-    element: NoFound,
-    exact: false,
-    auth: false,
-  },
   {
     path: '/login',
     element: Login,
+    exact: true,
+    auth: false,
+  },
+  {
+    path: '*',
+    element: _404,
     exact: false,
     auth: false,
   },

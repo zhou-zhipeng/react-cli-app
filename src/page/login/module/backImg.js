@@ -9,7 +9,7 @@ export default class BackImg extends Component {
         }
     }
     render() {
-        const { type, color} = this.state;
+        // const { type, color} = this.state;
         return (
             <div className="back-img">
                 

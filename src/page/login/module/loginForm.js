@@ -1,26 +1,50 @@
+/*
+ * 参考地址：https://github.com/remix-run/history/blob/dev/docs/navigation.md
+ */
 import React, { Component } from 'react'
 import { regExp } from '@/common/regexp'
 import { Form, Input, Button, Checkbox } from 'antd'
 import { UserOutlined, LockOutlined } from '@ant-design/icons'
+// import { /*createHashHistory*/ createBrowserHistory as history } from 'history'
+import {  Navigate } from 'react-router-dom'
 
+import { apiGetLogin } from '@/api/login'
 export default class LoginForm extends Component {
   formRef = React.createRef()
 
   constructor(props) {
     super(props)
-    this.state = {}
+    this.state = {
+      islogin: localStorage.getItem('authorization') || null
+    }
   }
+
   onFinish(values) {
-    console.log('Received values of form: ', values)
+    apiGetLogin(values).then((res) => {
+        let { data } = res
+        if (data.status === 200) {
+          if (data.data.authorization) {
+            localStorage.setItem('authorization', data.data.authorization)
+            this.setState({
+              islogin: true,
+            })
+          }
+        }
+      }).catch((err) => {
+        console.log(err)
+      })
   }
+
   render() {
     return (
       <div className="login-form-body">
+        {this.state.islogin && <Navigate to="/" replace="true" />}
         <Form
+          ref={this.formRef}
           name="normal_login"
           className="login-form"
           initialValues={{ remember: true }}
-          onFinish={() => this.onFinish}
+          onFinish={() => this.onFinish()}
         >
           <Form.Item
             name="username"
