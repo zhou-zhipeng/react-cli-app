@@ -1,28 +1,26 @@
 import Mock from 'mockjs'
 import qs from 'qs'
 
+import * as MockData from '@/mock/login'
 import request from '@/config/request.config'
 
-import Token from '@/mock/login'
-import Logout from '@/mock/login/logout'
-import UserInfo from '@/mock/login/userInfo'
 // 登录
 Mock.mock('/use/login', 'post', (config) => {
   if (config.body) {
     let params = qs.parse(config.body)
     if (!params.username || !params.password) {
-      return Token.error
+      return MockData.login.error
     }
   }
-  return Token.success
+  return MockData.login.success
 })
 // 退出
 Mock.mock('/use/logout', 'get', (config) => {
-  return Logout.success
+  return MockData.logout.success
 })
 // 获取用户信息
 Mock.mock('/use/userInfo', 'get', (config) => {
-  return UserInfo.success
+  return MockData.userInfo.success
 })
 
 export function apiGetLogin(data) {
