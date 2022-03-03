@@ -1,4 +1,7 @@
 
+/*
+* 路由鉴权高阶组件
+*/
 import { Navigate, useLocation } from 'react-router-dom'
 //引入store和action
 import store from '@/redux/store'
