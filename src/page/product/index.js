@@ -16,7 +16,7 @@ export default class Product extends Component {
     }
     render() {
         return(
-            <div className="developing notfound">
+            <div className="product-page">
                 <div>
                     产品
                 </div>

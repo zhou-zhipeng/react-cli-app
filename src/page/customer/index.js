@@ -15,7 +15,7 @@ export default class Customer extends Component {
     }
     render() {
         return(
-            <div className="developing notfound">
+            <div className="customer-page">
                 <div>
                    客户
                 </div>

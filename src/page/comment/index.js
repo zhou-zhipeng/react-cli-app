@@ -17,7 +17,7 @@ export default class Comment extends Component {
     }
     render() {
         return(
-            <div className="developing notfound">
+            <div className="comment-page">
                 <div>
                     评论
                 </div>

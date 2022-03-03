@@ -4,25 +4,30 @@ import { Layout, Menu } from 'antd'
 import {
   MenuUnfoldOutlined,
   MenuFoldOutlined,
-  UserOutlined,
-  VideoCameraOutlined,
-  UploadOutlined,
+  TeamOutlined,
+  GiftOutlined,
+  CommentOutlined,
 } from '@ant-design/icons'
 import { Link, Outlet } from 'react-router-dom'
-
+// module
+import UserInfo from './module/userInfo'
+// api
 import { apiGetMenuList } from '@/api/menu'
+//引入store和action
+import store from '@/redux/store'
+import * as Actions from '@/redux/actions'
 const { Header, Sider, Content } = Layout
 export default class Home extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      collapsed: false,
+      collapsed: store.getState().navToggle,
       menuList: [],
-      iconList: [UserOutlined, VideoCameraOutlined, UploadOutlined],
-      activeIndex: '-1'
+      iconList: [TeamOutlined, GiftOutlined, CommentOutlined],
+      activeIndex: store.getState().currentIndex
     }
   }
-  componentWillMount() {
+  UNSAFE_componentWillMount() {
     this.getMenuList()
   }
 
@@ -31,16 +36,16 @@ export default class Home extends Component {
         let { data } = res
         if (data.status === 200) {
           if (data.data.list.length) {
+            this.setState({
+                menuList: data.data.list
+            })
             data.data.list.forEach((element, key) => {
-                if (sessionStorage.getItem('currentIndex') && sessionStorage.getItem('currentIndex').includes(element.path)) {
+                if (this.state.activeIndex && this.state.activeIndex.includes(element.path)) {
                     this.setState({
                         activeIndex: key.toString()
                     })
                 }
             });
-            this.setState({
-              menuList: data.data.list
-            })
           }
         }
       }).catch((err) => {
@@ -50,7 +55,14 @@ export default class Home extends Component {
 
   toggle = () => {
     this.setState({
-      collapsed: !this.state.collapsed,
+        collapsed: !this.state.collapsed,
+    })
+    store.dispatch(Actions.navToggle(this.state.collapsed)) // 存储导航栏展开状态
+  }
+
+  onSelect = ({ item, key, keyPath, selectedKeys, domEvent }) => {
+    this.setState({
+      activeIndex: key,
     })
   }
 
@@ -61,7 +73,7 @@ export default class Home extends Component {
         <Layout>
           <Sider trigger={null} collapsible collapsed={this.state.collapsed}>
             <div className="logo" />
-            <Menu theme="dark" mode="inline" defaultSelectedKeys={[activeIndex]}>
+            <Menu theme="dark" mode="inline" selectedKeys={[activeIndex]} onSelect={this.onSelect}>
                 {
                     menuList.map((item, key) => {
                         let Icon = iconList[key]
@@ -83,6 +95,7 @@ export default class Home extends Component {
                   onClick: this.toggle,
                 }
               )}
+              <UserInfo/>
             </Header>
             <Content
               className="site-layout-background"

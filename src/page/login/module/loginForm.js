@@ -6,31 +6,46 @@ import { regExp } from '@/common/regexp'
 import { Form, Input, Button, Checkbox } from 'antd'
 import { UserOutlined, LockOutlined } from '@ant-design/icons'
 // import { /*createHashHistory*/ createBrowserHistory as history } from 'history'
-import {  Navigate } from 'react-router-dom'
+import { Navigate } from 'react-router-dom'
 
-import { apiGetLogin } from '@/api/login'
+//引入store和action
+import store from '@/redux/store'
+import * as Actions from '@/redux/actions'
+
+import { apiGetLogin } from '@/api/user'
 export default class LoginForm extends Component {
   formRef = React.createRef()
 
   constructor(props) {
     super(props)
     this.state = {
-      islogin: localStorage.getItem('authorization') || null
+      islogin: false,
     }
   }
 
+  UNSAFE_componentWillMount() {
+    this.getLogin()
+  }
+
+  getLogin() {
+    this.setState({
+      islogin: store.getState().isLogin,
+    })
+  }
+
   onFinish(values) {
-    apiGetLogin(values).then((res) => {
+    apiGetLogin(values)
+      .then((res) => {
         let { data } = res
         if (data.status === 200) {
           if (data.data.authorization) {
-            localStorage.setItem('authorization', data.data.authorization)
-            this.setState({
-              islogin: true,
-            })
+            store.dispatch(Actions.isLogin(true))
+            store.dispatch(Actions.authorization(data.data.authorization))
+            this.getLogin()
           }
         }
-      }).catch((err) => {
+      })
+      .catch((err) => {
         console.log(err)
       })
   }

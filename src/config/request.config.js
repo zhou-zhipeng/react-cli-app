@@ -1,6 +1,6 @@
 import axios from 'axios'
 import qs from 'qs'
-import { connect } from 'react-redux'
+import store from '@/redux/store'
 
 const service = axios.create({
   baseURL: '',
@@ -10,7 +10,7 @@ const service = axios.create({
 })
 service.interceptors.request.use(
     (config) => {
-    config.headers.authorization = localStorage.getItem('authorization') || ''
+    config.headers.authorization = store.getState().authorization || ''
     if (config.auth && !config.headers.authorization) { // 未登录且要鉴权请求返回错误
         return Promise.reject(config)
     }

@@ -1,5 +1,5 @@
 import Mock from 'mockjs'
-import qs from 'qs'
+// import qs from 'qs'
 
 import request from '@/config/request.config'
 
