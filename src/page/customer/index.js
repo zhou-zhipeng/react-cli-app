@@ -70,7 +70,7 @@ export default class Customer extends Component {
               </span>
               <Popconfirm
                 placement="bottomRight"
-                title={text}
+                title="确认删除吗?"
                 onConfirm={() => this.deleteData(index)}
                 okText="确认"
                 cancelText="取消"
@@ -82,6 +82,7 @@ export default class Customer extends Component {
         },
       ],
       dataSource: [],
+      upKey: null // 记录新增的key,避免删除新增后key重复
     }
   }
 
@@ -112,6 +113,7 @@ export default class Customer extends Component {
         if (data.status === 200) {
           this.setState({
             dataSource: data.data,
+            upKey: data.data.length
           })
         }
       }).catch((err) => {
@@ -120,9 +122,9 @@ export default class Customer extends Component {
   }
 
   deleteData(index = undefined) {
-    if (index) {
+    if (index !== undefined) {
       let list = this.state.dataSource
-      list = list.splice(index, 1)
+      list.splice(index, 1)
       this.setState({
         dataSource: [...list],
       })
@@ -143,13 +145,15 @@ export default class Customer extends Component {
           })
           return message.success('修改成功!', 3)
         } else {
-          // 新增
+          // 新增每次key + 1
+          let keys = this.state.upKey + 1
           let list = [
             ...this.state.dataSource,
-            { ...data, key: this.state.dataSource.length + 1 + '' },
+            { ...data, key: keys.toString() },
           ]
           this.setState({
             dataSource: list,
+            upKey: keys
           })
         }
     }
