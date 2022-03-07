@@ -54,10 +54,10 @@ export default class Home extends Component {
   }
 
   toggle = () => {
+    store.dispatch(Actions.navToggle(!this.state.collapsed)) // 存储导航栏展开状态
     this.setState({
         collapsed: !this.state.collapsed,
     })
-    store.dispatch(Actions.navToggle(this.state.collapsed)) // 存储导航栏展开状态
   }
 
   onSelect = ({ item, key, keyPath, selectedKeys, domEvent }) => {
