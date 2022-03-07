@@ -32,5 +32,8 @@ export default [
     element: Comment,
     exact: false,
     auth: true,
+    children: {
+        
+    }
   },
 ]
