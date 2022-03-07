@@ -17,6 +17,7 @@ import { apiGetMenuList } from '@/api/menu'
 import store from '@/redux/store'
 import * as Actions from '@/redux/actions'
 const { Header, Sider, Content } = Layout
+const { SubMenu } = Menu
 export default class Home extends Component {
   constructor(props) {
     super(props)
@@ -61,6 +62,7 @@ export default class Home extends Component {
   }
 
   onSelect = ({ item, key, keyPath, selectedKeys, domEvent }) => {
+    store.dispatch(Actions.currentIndex(key))// 记录当前激活栏
     this.setState({
       activeIndex: key,
     })
@@ -73,14 +75,28 @@ export default class Home extends Component {
         <Layout>
           <Sider trigger={null} collapsible collapsed={this.state.collapsed}>
             <div className="logo" />
-            <Menu theme="dark" mode="inline" selectedKeys={[activeIndex]} onSelect={this.onSelect}>
+            <Menu theme="dark" mode="inline" selectedKeys={[activeIndex]} onSelect={this.onSelect} defaultOpenKeys={[activeIndex]}>
                 {
                     menuList.map((item, key) => {
                         let Icon = iconList[key]
                         return (
-                            <Menu.Item key={key} icon={<Icon />}>
-                                <Link to={item.path}>{ item.name }</Link>
-                            </Menu.Item>
+                            item.children && item.children.length ? (
+                            <SubMenu key={key} title={item.name} icon={<Icon />}>
+                                {
+                                    item.children.map((its, keys) => {
+                                        return (
+                                            <Menu.Item key={key + "-" + keys}>
+                                                <Link to={its.path}>{ its.name }</Link>
+                                            </Menu.Item>
+                                        )
+                                    })
+                                }
+                            </SubMenu>)
+                            : (
+                                <Menu.Item key={key} icon={<Icon />}>
+                                    <Link to={item.path}>{ item.name }</Link>
+                                </Menu.Item>
+                            )
                         )
                     })
                 }

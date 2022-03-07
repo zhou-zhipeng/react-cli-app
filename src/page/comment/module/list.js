@@ -1,0 +1,27 @@
+// 评论页面组件
+import '@/less/module/comment.less'
+
+import { Component } from 'react';
+
+
+// import { Progress, Button } from 'antd'
+export default class Comment extends Component {
+    constructor(props){
+        super(props);
+        this.state = {
+
+        }
+    }
+    gobacks() {
+;
+    }
+    render() {
+        return(
+            <div className="comment-page">
+                <div>
+                    评论列表
+                </div>
+            </div>
+        )
+    }
+}

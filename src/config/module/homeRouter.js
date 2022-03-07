@@ -7,6 +7,8 @@ import Welcome from '@/page/home/welcome' // 主页
 import Customer from '@/page/customer' // 客户管理
 import Product from '@/page/product' // 产品管理
 import Comment from '@/page/comment' // 评论
+import CommentList from '@/page/comment/module/list' // 评论列表
+import CommentAdd from '@/page/comment/module/add' // 评论列表
 
 export default [
   {
@@ -32,8 +34,17 @@ export default [
     element: Comment,
     exact: false,
     auth: true,
-    children: {
-        
-    }
+  },
+  {
+    path: 'comment/add',
+    element: CommentAdd,
+    exact: false,
+    auth: true,
+  },
+  {
+    path: 'comment/list',
+    element: CommentList,
+    exact: false,
+    auth: true,
   },
 ]

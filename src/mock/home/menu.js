@@ -16,6 +16,16 @@ module.exports = {
         {
           path: 'comment',
           name: '评论管理',
+          children: [
+            {
+            path: 'comment/list',
+            name: '评论列表',
+            },
+            {
+            path: 'comment/add',
+            name: '评论新增',
+            }
+          ]
         },
       ],
     },
