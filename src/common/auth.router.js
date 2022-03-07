@@ -4,13 +4,10 @@
 import { Navigate, useLocation } from 'react-router-dom'
 //引入store和action
 import store from '@/redux/store'
-import * as Actions from '@/redux/actions'
 
 const Routers = ({ children }) => {
     let auth = store.getState().authorization || '' // 是否登录
     let location = useLocation()
-    store.dispatch(Actions.currentIndex(location.pathname))// 记录当前激活栏
-    
     if (!auth) {
       return <Navigate to="/login" state={{ from: location }} replace />
     }
